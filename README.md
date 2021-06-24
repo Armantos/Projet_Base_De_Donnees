@@ -1,6 +1,12 @@
 # Projet_Base_De_Donnees
 Projet bdd L3 Efrei Paris
 
+Pour récuperer le projet :  
+> git clone https://github.com/Armantos/Projet_Base_De_Donnees
+
+Pour récupérer le code à jour :  
+> git pull origin master  
+
 Langage : Python  
 BDD : PostgreSQL  
 
