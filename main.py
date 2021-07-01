@@ -1,44 +1,37 @@
 import psycopg2.extras
 import pandas as pd
 
-################## Connection à la base de données###############################################
-conn = psycopg2.connect(host="localhost", user="postgres", password="root", database="postgres")
+from CSVhandler import convert_csv_to_sql
+from databaseHandler import connect_to_database, select_all_from_database, select_total_number_of_vaccines
+from graphicData import graphic_data
 
-##################Conversion d'un fichier CSV###############################################
-data = pd.read_csv('stocks-plateformes.csv', sep=';', engine='python')
-df = pd.DataFrame(data, columns=['nb_UCD', 'nb_doses', 'type_de_vaccin', 'date'])
+# graphic_data()
 
-print(df)
+# convert_csv_to_sql()
+conn = connect_to_database()
 
-##################Creation de la table dans la bdd###############################################
-# with conn == conn.commit() ==> valide les changements faits à la bdd
-with conn:
-    # with conn.cursor(...) == declaration + cur.close()
-    # DictCursor affiche le curseur sous forme de dictionnaire []
-    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
-        cur.execute('CREATE TABLE IF NOT EXISTS stock_plateformes ('
-                    'nb_UCD int NOT NULL ,'
-                    'nb_doses int NOT NULL,'
-                    'type_de_vaccin varchar(50) NOT NULL,'
-                    'date varchar(50) NOT NULL)'
-                    ';')
+#select_all_from_database(conn)
+select_total_number_of_vaccines(conn)
 
-        print("creation table reussie")
+choice = 0
 
-        ##################Insertion des données dans la bdd###############################################
-        for row in df.itertuples():
-            sql = "INSERT INTO stock_plateformes VALUES (%s,%s,%s,%s);"
-            val = (row.nb_UCD,
-                   row.nb_doses,
-                   row.type_de_vaccin,
-                   row.date)
-            cur.execute(sql, val)
-        print("insertion reussie")
+while choice != 4:
+    print("Choisissez un diagramme à afficher \n"
+          "1)Nombre total de vaccin \n"
+          "2)Nombre de vaccins par mois \n"
+          "3)Evolution du nombre de vaccins au court du temps \n"
+          "4)Quitter")
 
-        ##################Lectures des données dans la bdd###############################################
-        cur.execute("SELECT * FROM stock_plateformes WHERE nb_ucd = 0 ;")
-        print(cur.fetchall())
+    choice = int(input())
 
-conn.close()
+    if choice == 1:
+        print("Nombre total de vaccin")
+    elif choice == 2:
+        print("Nombre de vaccins par mois")
+    elif choice == 3:
+        print("Evolution du nombre de vaccins au court du temps")
+    else:
+        print("Au revoir !")
 
-# TODO affichage des données avec pandas
+print("Fin du programme")
+conn.close()  # Ferme la connexion à la bdd
