@@ -7,6 +7,12 @@ Pour récuperer le projet :
 Pour récupérer le code à jour :  
 > git pull origin master  
 
+IDE possibles pour Python:
+>Pycharm (recommandé)  
+>Spyder  
+>Jupyter  
+>Google Collab
+
 Langage : Python  
 BDD : PostgreSQL  
 
