@@ -2,15 +2,16 @@ import psycopg2.extras
 import pandas as pd
 
 from CSVhandler import convert_csv_to_sql
-from databaseHandler import connect_to_database, select_all_from_database, select_total_number_of_vaccines
-from graphicData import graphic_data
+from databaseHandler import connect_to_database, insert_into_database, select_all_from_database, select_total_number_of_vaccines
 
-# graphic_data()
 
-# convert_csv_to_sql()
+
+
 conn = connect_to_database()
 
 #select_all_from_database(conn)
+
+insert_into_database(conn)
 select_total_number_of_vaccines(conn)
 
 choice = 0
